@@ -1,29 +1,28 @@
 import streamlit as st
 import pandas as pd
 
-# 페이지 설정
-st.set_page_config(page_title="환경설계(CPTED) 치안 분석 앱", page_icon="✨", layout="wide")
+st.set_page_config(page_title="CPTED 환경설계 분석 시스템", page_icon="🌳", layout="wide")
 
-st.title("✨ 데이터 기반 환경설계(CPTED) 효과 분석 시스템")
+st.title("🌳 CPTED 기반 방범시설·조경면적과 범죄율의 상관관계 분석")
 st.markdown("---")
 
 st.markdown("""
-### 📌 프로젝트 개요
-본 애플리케이션은 **국가 통계 데이터(`processed_crime_data.csv`)**를 기반으로, 각 지자체(지역)별 범죄 발생 현황을 진단하고, 
-도시의 **방범 시설(CCTV 등)** 및 **조경 면적(녹지 지표)**이 실제 범죄 예방에 미치는 환경설계(CPTED) 효과를 다각도로 분석합니다.
+### 🎯 설정 가설
+> **"도시 내 방범용 CCTV 설치 수와 정비된 조경 면적이 많은 지역일수록 인구 대비 범죄율(인구 10만 명당 범죄율)이 낮게 나타날 것이다."**
 
-### 📊 분석 데이터 가이드
-왼쪽 사이드바의 메뉴를 통해 원하는 분석 페이지로 이동할 수 있습니다.
-1. **📌 지역별 범죄 현황 (1_국가별MBTI.py)**: 선택한 지자체의 연도별 범죄 발생 건수 및 인구 10만 명당 범죄율 추이를 시각화합니다.
-2. **🌳 환경설계(CPTED) 효과 분석 (2_MBTI비교.py)**: 특정 지역의 조경 면적 및 방범 시설 인프라 수준을 범죄율과 비교하여 환경설계의 실효성을 검증합니다.
+### 📁 분석 데이터 정보
+본 앱은 전처리 단계에서 결합된 `조경면적과 시설이 범죄율이 미치는 상관관계 분석.csv` 공인 공공데이터를 기반으로 작동합니다.
+* **인구_10만명당_범죄율**: 지역 간 인구 편차를 제거하여 객관화한 비교 지표
+* **CCTV_설치수**: 물리적 감시 장치의 확충 수준
+* **조경면적_m2**: 가시성 및 자연적 감시 환경을 반영하는 녹지 환경 지표
 """)
 
 st.markdown("---")
-st.subheader("📂 원본 데이터 셋 원격 미리보기 (`processed_crime_data.csv`)")
+st.subheader("📋 통합 데이터셋 원본 확인 (`조경면적과 시설이 범죄율이 미치는 상관관계 분석.csv`)")
 
 try:
-    df = pd.read_csv("processed_crime_data.csv")
-    st.dataframe(df.head(10), use_container_width=True)
-    st.success("데이터 로드 성공! 왼쪽 메뉴에서 세부 분석을 진행해 보세요.")
+    df = pd.read_csv("조경면적과 시설이 범죄율이 미치는 상관관계 분석.csv")
+    st.dataframe(df, use_container_width=True)
+    st.success(f"🎯 총 {len(df)}개의 지역 데이터셋이 성공적으로 연결되었습니다. 왼쪽 메뉴로 이동해 가설을 검증해 보세요!")
 except Exception as e:
-    st.error(f"데이터 파일을 찾을 수 없거나 오류가 발생했습니다: {e}")
+    st.error(f"데이터 파일을 읽는 도중 오류가 발생했습니다. 파일명과 경로를 확인해 주세요: {e}")
